@@ -16,6 +16,7 @@ This dashboard allows you to upload your sales data and visualize various metric
 Upload your file using the sidebar, and the sales performance will be displayed along with other insightful charts.
 You can order one for your business and customize as per your requirements.
 """)
+cmap = sns.color_palette("RdYlGn", as_cmap=True)
 
 # Make upload button
 fl = st.file_uploader(":file_folder: Upload a file", type=["csv", "xlsx", "xls"])
@@ -76,7 +77,6 @@ if fl is not None:
         st.plotly_chart(fig, use_container_width=True)
 
     cl1, cl2 = st.columns(2)
-    cmap = plt.cm.get_cmap('RdYlGn')
 
     with cl1:
         with st.expander("Category_Viewdata"):
