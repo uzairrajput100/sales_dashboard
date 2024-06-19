@@ -8,6 +8,8 @@ import warnings
 import matplotlib.pyplot as plt
 warnings.filterwarnings('ignore')
 
+cmap = plt.cm.RdYlGn
+
 st.set_page_config(page_title="Sales Progress Dashboard", page_icon=":bar_chart:", layout="wide")
 st.divider()
 st.title("Sales Progress Dashboard")
@@ -97,7 +99,6 @@ if fl is not None:
         st.plotly_chart(fig, use_container_width=True)
 
     cl1, cl2 = st.columns(2)
-    cmap = sns.color_palette("RdYlGn", as_cmap=True)
     with cl1:
         with st.expander("Category_Viewdata"):
             st.write(category_df.style.background_gradient(cmap=cmap))
@@ -145,7 +146,6 @@ if fl is not None:
         st.plotly_chart(fig, use_container_width=True)
 
     import plotly.figure_factory as ff
-    cmap = sns.color_palette("RdYlGn", as_cmap=True)
     st.subheader(":point_right: Month wise Sub-Category Sales summary")
     with st.expander("Summary_Table"):
         df_sample = df[0:5][["Region", "State", "City", "Category", "Sales", "Profit", 'Quantity']]
