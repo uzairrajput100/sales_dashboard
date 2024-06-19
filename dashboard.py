@@ -163,7 +163,7 @@ if fl is not None:
         st.markdown("Month wise Sub-Category Table")
         filtered_df["month"] = filtered_df["Order Date"].dt.month_name()
         sub_category_year = pd.pivot_table(data=filtered_df, values="Sales", index=["Sub-Category"], columns="month")
-        st.write(sub_category_year.style.background_gradient(gmap=df_log.div(df_log.max()),
+        st.write(sub_category_year.style.background_gradient(gmap=sub_category_year.div(sub_category_year.max()),
                              low=-0.3, cmap=cm, axis=None))
 
     data1 = px.scatter(filtered_df, x="Sales", y="Profit", size="Quantity", title="Relationship between Sales and Profit using Scatter Plot")
