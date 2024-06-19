@@ -3,22 +3,21 @@ import plotly
 import plotly.express as px
 import streamlit as st
 import os
-import seaborn as sns
 import warnings
 import matplotlib.pyplot as plt
-warnings.filterwarnings('ignore')
 
-cmap = plt.cm.RdYlGn
+warnings.filterwarnings('ignore')
 
 st.set_page_config(page_title="Sales Progress Dashboard", page_icon=":bar_chart:", layout="wide")
 st.divider()
 st.title("Sales Progress Dashboard")
-st.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True) 
+st.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
 st.markdown("""
 This dashboard allows you to upload your sales data and visualize various metrics. 
 Upload your file using the sidebar, and the sales performance will be displayed along with other insightful charts.
 You can order one for your business and customize as per your requirements.
 """)
+cmap = plt.cm.get_cmap('RdYlGn')
 
 # Make upload button
 fl = st.file_uploader(":file_folder: Upload a file", type=(["csv", "xlsx", "xls"]))
@@ -63,7 +62,6 @@ if fl is not None:
     else:
         df3 = df2[df2['State'].isin(state)]
 
-
     # Same for city
     city = st.sidebar.multiselect('Pick your City', df3['City'].unique())
 
@@ -101,7 +99,12 @@ if fl is not None:
     cl1, cl2 = st.columns(2)
     with cl1:
         with st.expander("Category_Viewdata"):
-            st.write(category_df.style.background_gradient(cmap=cmap))
+            st.write("Displaying styled DataFrame")
+            try:
+                styled_category_df = category_df.style.background_gradient(cmap=cmap)
+                st.dataframe(styled_category_df.to_html(), unsafe_allow_html=True)
+            except Exception as e:
+                st.write(f"An error occurred: {e}")
             csv = category_df.to_csv(index=False).encode("utf-8")
             st.download_button("Download Data", data=csv, file_name="Category.csv", mime='text/csv',
                                help="Click here to download the Csv file")
@@ -109,7 +112,11 @@ if fl is not None:
     with cl2:
         with st.expander("Region_Viewdata"):
             region_df = filtered_df.groupby(by=["Region"], as_index=False)["Sales"].sum()
-            st.write(region_df.style.background_gradient(cmap=cmap))
+            try:
+                styled_region_df = region_df.style.background_gradient(cmap=cmap)
+                st.dataframe(styled_region_df.to_html(), unsafe_allow_html=True)
+            except Exception as e:
+                st.write(f"An error occurred: {e}")
             csv = region_df.to_csv(index=False).encode("utf-8")
             st.download_button("Download Data", data=csv, file_name="Region.csv", mime='text/csv',
                                help="Click here to download the Csv file")
@@ -159,17 +166,3 @@ if fl is not None:
 
     data1 = px.scatter(filtered_df, x="Sales", y="Profit", size="Quantity", title="Relationship between Sales and Profit using Scatter Plot")
     st.plotly_chart(data1, use_container_width=True)
-
-    with st.expander("View Data"):
-        st.write(filtered_df.iloc[:500, 1:20:2].style.background_gradient(cmap=cmap))
-
-    csv = df.to_csv(index=False).encode('utf-8')
-    st.download_button("Download Data", data=csv, file_name="Data.csv", mime="text/csv")
-else:
-    st.info("Please upload a CSV file to get started.")
-
-# Footer
-st.markdown(""" 
----
-**Contact Us:** For any sales queries or support, feel free to reach out at +92 333 6611988 or email uzairrajput100@gmail.com
-""")
