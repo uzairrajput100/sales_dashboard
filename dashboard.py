@@ -17,7 +17,7 @@ This dashboard allows you to upload your sales data and visualize various metric
 Upload your file using the sidebar, and the sales performance will be displayed along with other insightful charts.
 You can order one for your business and customize as per your requirements.
 """)
-cmap = plt.cm.get_cmap('RdYlGn')
+cmap = plt.get_cmap('RdYlGn')
 
 # Make upload button
 fl = st.file_uploader(":file_folder: Upload a file", type=(["csv", "xlsx", "xls"]))
