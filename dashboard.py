@@ -154,8 +154,8 @@ if fl is not None:
 
     import plotly.figure_factory as ff
     st.subheader(":point_right: Month wise Sub-Category Sales summary")
-    cmap = plt.get_cmap('RdYlGn')
     with st.expander("Summary_Table"):
+        cmap = plt.get_cmap('RdYlGn')
         df_sample = df[0:5][["Region", "State", "City", "Category", "Sales", "Profit", 'Quantity']]
         fig = ff.create_table(df_sample, colorscale="Cividis")
         st.plotly_chart(fig, use_container_width=True)
